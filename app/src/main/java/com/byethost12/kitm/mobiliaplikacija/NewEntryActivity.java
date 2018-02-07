@@ -1,8 +1,8 @@
 package com.byethost12.kitm.mobiliaplikacija;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,6 +30,8 @@ public class NewEntryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_entry);
+
+        setTitle(R.string.new_entry_label);
 
         btnSubmit = (Button) findViewById(R.id.btnAdd);
         etId = (EditText) findViewById(R.id.etId);
