@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
  */
 
 public class User {
+    private int id;
+    private String userlevel;
     private String username;
     private String password;
     private String email;
@@ -18,8 +20,15 @@ public class User {
 
     private SharedPreferences sharedPreferences;
 
+    // konstuktorius reikalingas SQLite
+
+    public User(){
+
+    }
+
     //skirtas register activity registruojant nauja vartotoja
-    public User(String username, String password, String email) {
+    public User(String userlevel,String username, String password, String email) {
+        this.userlevel = userlevel;
         this.username = username;
         this.password = password;
         this.email = email;
@@ -55,6 +64,21 @@ public class User {
     public void setUsernameForRegister(String username) {
         this.username = username;
     }
+    public String getUserlevel () {
+        return userlevel;
+    }
+    public void setUserlevel(String userlevel){
+        this.userlevel = userlevel;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
+    }
+
     public String getPasswordForRegister() {
         return password;
     }
@@ -66,5 +90,16 @@ public class User {
     }
     public void setEmailForRegister(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id + '\'' +
+                ", userlevel='" + userlevel + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
