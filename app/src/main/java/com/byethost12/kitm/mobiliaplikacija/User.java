@@ -3,10 +3,6 @@ package com.byethost12.kitm.mobiliaplikacija;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-/**
- * Created by mokytojas on 2018-01-31.
- */
-
 public class User {
     private int id;
     private String userlevel;
@@ -20,14 +16,13 @@ public class User {
 
     private SharedPreferences sharedPreferences;
 
-    // konstuktorius reikalingas SQLite
 
-    public User(){
+    // konstruktorius skirtas sqlLite
+    public User() {
 
     }
-
     //skirtas register activity registruojant nauja vartotoja
-    public User(String userlevel,String username, String password, String email) {
+    public User(String userlevel, String username, String password, String email) {
         this.userlevel = userlevel;
         this.username = username;
         this.password = password;
@@ -38,7 +33,7 @@ public class User {
         this.sharedPreferences = context.getSharedPreferences
                 (User.PREFERENCES_FILE_NAME,Context.MODE_PRIVATE);
     }
-//geteriai seteriai skirti login activity prisijungimo langui
+    //geteriai seteriai skirti login activity prisijungimo langui
     public String getUsernameForLogin() {
         return this.sharedPreferences.getString(USERNAME_KEY,"");
     }
@@ -55,7 +50,7 @@ public class User {
         return this.sharedPreferences.getBoolean(REMEMBER_ME_KEY,false);
     }
     public void setRememberMeKeyForLogin(boolean rememberMe){
-      this.sharedPreferences.edit().putBoolean(REMEMBER_ME_KEY,rememberMe).commit();
+        this.sharedPreferences.edit().putBoolean(REMEMBER_ME_KEY,rememberMe).commit();
     }
     //sitie geteriai seteriai skirti register activity langui
     public String getUsernameForRegister() {
@@ -64,18 +59,20 @@ public class User {
     public void setUsernameForRegister(String username) {
         this.username = username;
     }
-    public String getUserlevel () {
+
+    public String getUserlevel() {
         return userlevel;
     }
-    public void setUserlevel(String userlevel){
+
+    public void setUserlevel(String userlevel) {
         this.userlevel = userlevel;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -95,7 +92,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id + '\'' +
+                "id=" + id +
                 ", userlevel='" + userlevel + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +

@@ -1,9 +1,49 @@
 <resources>
-    <string name="app_name">Mobili Aplikacija</string>
+    <string name="app_name">Pokemonai</string>
+
     <string name="login_label">Prisijungimas</string>
     <string name="register_label">Naujas vartotojas</string>
     <string name="search_label">Paieška</string>
     <string name="new_entry_label">Naujas įrašas</string>
+    <string name="entry_update_label">Įrašo redagavimas</string>
     <string name="login_invalid_username">Klaidingai įvestas prisijungimo vardas</string>
     <string name="login_invalid_password">Klaidingai įvestas slaptažodis</string>
+<!--
+<string name="login_name">POKEMONAI</string>
+<string name="login_username">Vartotojas</string>
+<string name="login_password">Slaptažodis</string>
+<string name="login_remember_me">Prisimink mane</string>
+<string name="login_button_login">Prisijungti</string>
+<string name="login_button_register">Registracija</string>
+<string name="new_entry">Enter new entry</string>
+<string name="pokemon_id">Id:</string>
+<string name="login_pokemon_name">Pokemon name:</string>
+<string name="login_pokemon_type">Pokemon type:</string>
+<string name="login_pokemon_type_vegan">Vegan</string>
+<string name="login_pokemon_type_two_heads">Two heads</string>
+<string name="login_pokemon_type_four_legs">Four legs</string>
+<string name="login_pokemon_class">Pokemono class</string>
+<string name="login_pokemon_class_fire">Fire</string>
+<string name="login_pokemon_class_water">Water</string>
+<string name="login_pokemon_class_air">Air</string>
+<string name="login_pokemon_cp">Pokemono galia</string>
+<string name="login_pokemon_cp_strong">Strong</string>
+<string name="login_pokemon_cp_medium">Medium</string>
+<string name="login_pokemon_cp_weak">Weak</string>
+<string-array name="pokemon_array_cp">
+<item>Strong</item>
+<item>Medium</item>
+<item>Weak</item>
+</string-array>
+<string name="login_pokemon_weight">Pokemono ūgis</string>
+<string name="login_pokemon_height">Pokemono svoris</string>
+<string name="add">Add</string>
+<string name="registration_name">Registracijos langas</string>
+<string name="username">Vardas</string>
+<string name="password">Slaptažodis</string>
+<string name="registration_email">El.paštas</string>
+<string name="registration_invalid_login">Blogai įvedėte prisijungimo vardą</string>
+<string name="registration_invalid_email">Blogai įvedėte elektroninį paštą</string>
+<string name="registration_invalid_password">Blogai įvedėte slaptažodį</string>
+-->
 </resources>

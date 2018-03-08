@@ -1,9 +1,8 @@
 package com.byethost12.kitm.mobiliaplikacija;
 
-
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,7 +20,7 @@ public class LoginActivity extends AppCompatActivity {
         setTitle(R.string.login_label);
 
         Button btnLogin = (Button) findViewById(R.id.login);
-      //  Button btnRegister = (Button) findViewById(R.id.register);
+        Button btnRegister = (Button) findViewById(R.id.register);
         final EditText etUsername = (EditText) findViewById(R.id.username);
         final EditText etPassword = (EditText) findViewById(R.id.password);
         final CheckBox cbRememberMe = (CheckBox) findViewById(R.id.rememberMe);
@@ -33,21 +32,22 @@ public class LoginActivity extends AppCompatActivity {
 
         cbRememberMe.setChecked(user.isRemembered());
 
-        if(user.isRemembered()) {
+        if (user.isRemembered()) {
             etUsername.setText(user.getUsernameForLogin(), TextView.BufferType.EDITABLE);
             etPassword.setText(user.getPasswordForLogin(), TextView.BufferType.EDITABLE);
-        }else{
+        } else {
             etUsername.setText("", TextView.BufferType.EDITABLE);
             etPassword.setText("", TextView.BufferType.EDITABLE);
         }
 
-       /* btnRegister.setOnClickListener(new View.OnClickListener(){
+        btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick (View view){
+            public void onClick(View view) {
                 Intent goToSearchActivity = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(goToSearchActivity);
+
             }
-        }); */
+        });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,18 +65,21 @@ public class LoginActivity extends AppCompatActivity {
                     cancel = true;
                     etPassword.requestFocus();
                     etPassword.setError(getResources().getString(R.string.login_invalid_password));
-                   // Toast.makeText(LoginActivity.this, getResources().getString(R.string.login_invalid_password),
-                   // Toast.LENGTH_SHORT).show();
-                } else {// praejus validacija kreipiames i DB
+                    // Toast.makeText(LoginActivity.this, getResources().getString(R.string.login_invalid_password),
+                    // Toast.LENGTH_SHORT).show();
+                } else { // praėjo validaciją, kreipiamės į duomenų bazę
                     DatabaseSQLite databaseSQLite = new DatabaseSQLite(getApplicationContext());
+
                     if (databaseSQLite.isValidUser(etUsername.getText().toString(),
-                etPassword.getText().toString())) {// randa vartotoja
+                            etPassword.getText().toString())) { // rado vartotoją
                         cancel = false;
-                    } else {//kai neranda
+                    } else { // nerado vartotojo
                         cancel = true;
-                        Toast.makeText(LoginActivity.this, "Tokio vartotojo DB nėra",
-                        Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Tokio vartotojo duomenų bazėje nėra",
+                                Toast.LENGTH_SHORT).show();
                     }
+
+                }
 
                 if (!cancel) {
                     Toast.makeText(LoginActivity.this,
@@ -85,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     user.setUsernameForLogin(etUsername.getText().toString());
                     user.setPasswordForLogin(etPassword.getText().toString());
-                    if (cbRememberMe.isChecked()){
+                    if (cbRememberMe.isChecked()) {
                         user.setRememberMeKeyForLogin(true);
                     } else {
                         user.setRememberMeKeyForLogin(false);
@@ -94,8 +97,9 @@ public class LoginActivity extends AppCompatActivity {
                     Intent goToSearchActivity = new Intent(LoginActivity.this, SearchActivity.class);
                     startActivity(goToSearchActivity);
                 }
-                }
-            };
+
+            }
         });
-    };
+    }
+
 }
