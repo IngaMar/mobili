@@ -1,8 +1,13 @@
 package com.byethost12.kitm.mobiliaplikacija;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,7 +30,8 @@ public class EntryActivity extends AppCompatActivity {
     Spinner spinner;
     ArrayAdapter<String> adapter;
 
-    Pokemonas pokemonas;
+    Pokemonas pradinisPokemonas;
+    Pokemonas galutinisPokemonas;
 
     DatabaseSQLite db;
 
@@ -35,6 +41,7 @@ public class EntryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         db = new DatabaseSQLite(EntryActivity.this);
 
@@ -54,18 +61,19 @@ public class EntryActivity extends AppCompatActivity {
             setTitle(R.string.entry_update_label);
         }
 
-        pokemonas = new Pokemonas();
+        pradinisPokemonas = new Pokemonas();
         if (entryID == -1) { //naujas irasas
-            pokemonas.setId(-1);
-            pokemonas.setName("");
-            pokemonas.setAbilities("Vegan");
-            pokemonas.setCp("Medium");
-            pokemonas.setType("Water");
-            pokemonas.setHeight(0);
-            pokemonas.setWeight(0);
+            pradinisPokemonas.setId(-1);
+            pradinisPokemonas.setName("");
+            pradinisPokemonas.setAbilities("Vegan");
+            pradinisPokemonas.setCp("Medium");
+            pradinisPokemonas.setType("Water");
+            pradinisPokemonas.setHeight(0);
+            pradinisPokemonas.setWeight(0);
         } else { // egzistuojantis irasas
-            pokemonas = db.getPokemonas(entryID);
+            pradinisPokemonas = db.getPokemonas(entryID);
         }
+        galutinisPokemonas = new Pokemonas();
 
         btnSubmit = (Button) findViewById(R.id.btnAdd);
         btnUpdate = (Button) findViewById(R.id.btnUpdate);
@@ -98,14 +106,14 @@ public class EntryActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(adapter);
 
-        fillFields(pokemonas);
+        fillFields(pradinisPokemonas);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getFields();
 
-                db.addPokemon(pokemonas);
+                db.addPokemon(galutinisPokemonas);
 
                 Intent goToSearchActivity = new Intent(EntryActivity.this, SearchActivity.class);
                 startActivity(goToSearchActivity);
@@ -117,7 +125,7 @@ public class EntryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 getFields();
 
-                db.updatePokemon(pokemonas);
+                db.updatePokemon(galutinisPokemonas);
 
                 Intent goToSearchActivity = new Intent(EntryActivity.this, SearchActivity.class);
                 startActivity(goToSearchActivity);
@@ -128,7 +136,7 @@ public class EntryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                db.deletePokemon(pokemonas.getId());
+                db.deletePokemon(pradinisPokemonas.getId());
 
                 Intent goToSearchActivity = new Intent(EntryActivity.this, SearchActivity.class);
                 startActivity(goToSearchActivity);
@@ -154,26 +162,26 @@ public class EntryActivity extends AppCompatActivity {
         String checkboxText = "";
 
         if(cbVegan.isChecked()){
-            checkboxText = checkboxText + "Vegan,";
+            checkboxText = checkboxText + "Vegan ";
         }
 
         if(cbInvisible.isChecked()){
-            checkboxText = checkboxText + "Invisible,";
+            checkboxText = checkboxText + "Invisible ";
         }
 
         if(cbTwoHeads.isChecked()){
-            checkboxText = checkboxText + "Two heads";
+            checkboxText = checkboxText + "Two heads ";
         }
 
         spinnerText = spinner.getSelectedItem().toString();
 
-        pokemonas.setId(pokemonas.getId());
-        pokemonas.setName(name);
-        pokemonas.setHeight(height);
-        pokemonas.setWeight(weight);
-        pokemonas.setAbilities(checkboxText);
-        pokemonas.setCp(rb);
-        pokemonas.setType(spinnerText);
+        galutinisPokemonas.setId(pradinisPokemonas.getId());
+        galutinisPokemonas.setName(name);
+        galutinisPokemonas.setHeight(height);
+        galutinisPokemonas.setWeight(weight);
+        galutinisPokemonas.setAbilities(checkboxText);
+        galutinisPokemonas.setCp(rb);
+        galutinisPokemonas.setType(spinnerText);
     }
 
     private void fillFields (Pokemonas pokemonas){
@@ -190,5 +198,68 @@ public class EntryActivity extends AppCompatActivity {
         rbWeak.setChecked(pokemonas.getCp().equals("Weak"));
 
         spinner.setSelection(adapter.getPosition(pokemonas.getType()));
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            Log.d("CDA", "onKeyDown Called");
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                getFields();
+                if (pradinisPokemonas.equals(galutinisPokemonas)) { //Nebuvo pakeistas
+                    finish();
+                } else {  //Buvo pakeistas
+                    showDialog();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    private void showDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                EntryActivity.this);
+
+        // set title
+        alertDialogBuilder.setTitle("Įspėjimas");
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage("Išsaugoti pakeitimus?")
+                .setCancelable(false)
+                .setPositiveButton("Taip",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton("Ne",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        EntryActivity.this.finish();
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
     }
 }

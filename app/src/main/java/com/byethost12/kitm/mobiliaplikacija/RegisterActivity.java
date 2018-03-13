@@ -3,18 +3,16 @@ package com.byethost12.kitm.mobiliaplikacija;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.util.List;
 
-import static android.R.attr.button;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
+
+
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -28,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         username            = (EditText)findViewById(R.id.username);
         password            = (EditText)findViewById(R.id.password);
@@ -62,18 +61,25 @@ public class RegisterActivity extends AppCompatActivity {
                             email.getText().toString());
 
                     databaseSQLite.addUser(userToSQLite);
-
                     List<User> useriai = databaseSQLite.getAllUsers();
-
-                    for(User user : useriai){
-                        Toast.makeText(getApplicationContext(),
-                                user.toString(),
-                                Toast.LENGTH_LONG).show();
-                    }
-
                     startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 }
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

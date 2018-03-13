@@ -6,6 +6,7 @@ package com.byethost12.kitm.mobiliaplikacija;
 
 public class Pokemonas {
     private int id;
+    private String user; //naudojamas Cloudui
     private String name;
     private double weight;
     private double height;
@@ -13,8 +14,10 @@ public class Pokemonas {
     private String abilities;
     private String type;
 
-    public Pokemonas(int id, String name, double weight, double height, String cp, String abilities, String type) {
+    //Naudojama cloudui
+    public Pokemonas(int id, String user, String name, double weight, double height, String cp, String abilities, String type) {
         this.id = id;
+        this.user = user;
         this.name = name;
         this.weight = weight;
         this.height = height;
@@ -25,6 +28,10 @@ public class Pokemonas {
 
     public Pokemonas() {
     }
+
+    public String getUser() {return user;}
+
+    public void setUser(String user) {this.user = user;}
 
     public int getId() {
         return id;
@@ -86,6 +93,7 @@ public class Pokemonas {
     public String toString() {
         return "Pokemonas{" +
                 "id=" + id +
+                ", user='" + user + '\'' +
                 ", name='" + name + '\'' +
                 ", weight=" + weight +
                 ", height=" + height +
@@ -94,4 +102,25 @@ public class Pokemonas {
                 ", type='" + type + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Pokemonas) {
+            Pokemonas pokemonas = (Pokemonas) o;
+            boolean name = pokemonas.getName().equals(getName());
+            boolean weight = Double.compare(pokemonas.getWeight(),getWeight())==0;
+            boolean height = Double.compare(pokemonas.getHeight(),getHeight())==0;
+            boolean cp = pokemonas.getCp().equals(getCp());
+            boolean abilities = pokemonas.getAbilities().equals(getAbilities());
+            boolean type = pokemonas.getType().equals(getType());
+            return (name
+                    &&weight
+                    &&height
+                    &&cp
+                    &&abilities
+                    &&type);
+        }
+        return false;
+    }
+
 }
